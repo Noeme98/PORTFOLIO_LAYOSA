@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Reveal } from "@/components/reveal";
 import { projects } from "@/data/projects";
 import { profile, resume, stack } from "@/data/site";
-import { Printer } from "lucide-react";
 
 const title = "Resume — Neil Francis Layosa";
 const description =
@@ -44,7 +43,7 @@ function ResumePage() {
             {profile.role} · {profile.location}
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-3 no-print">
+        <div className="flex flex-wrap items-center gap-3">
           <a
             href={profile.links.linkedin}
             target="_blank"
@@ -61,14 +60,6 @@ function ResumePage() {
           >
             GitHub
           </a>
-          <button
-            type="button"
-            onClick={() => window.print()}
-            className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity"
-          >
-            <Printer className="h-4 w-4" />
-            Print / Save as PDF
-          </button>
         </div>
       </Reveal>
 
