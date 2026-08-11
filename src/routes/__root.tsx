@@ -80,14 +80,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "[Your Name] — Automation & Solutions Engineer" },
+      { title: "Neil Francis Layosa — Automation Specialist | IT Support | Web Developer" },
       {
         name: "description",
         content:
-          "Automation & Solutions Engineer building AI automation, workflow automation, internal business systems, web applications, and API integrations.",
+          "Automation Specialist, IT Support, and Web Developer building AI automation, workflow automation, internal hospital systems, web applications, and API integrations.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "[Your Name] — Automation & Solutions Engineer" },
+      { property: "og:site_name", content: "Neil Francis Layosa — Automation Specialist | IT Support | Web Developer" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -98,7 +98,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
     ],
   }),
 

@@ -63,14 +63,15 @@ export function SiteNav() {
         aria-label="Main"
         className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3.5 sm:px-6 lg:grid-cols-[auto_1fr_auto]"
       >
-        <Link to="/" className="flex min-w-0 items-center gap-2.5" aria-label="Home">
-          <span
-            className="grid h-7 w-7 shrink-0 place-items-center rounded-md border border-border bg-surface text-[11px] font-semibold tracking-tight"
-            aria-hidden="true"
-          >
-            /
+        <Link to="/" className="flex min-w-0 items-center gap-2.5 group" aria-label="Home">
+          <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-sky-500 via-blue-600 to-emerald-500 p-0.5 shadow-xs group-hover:scale-105 transition-transform">
+            <div className="flex h-full w-full items-center justify-center rounded-[6px] bg-slate-950 font-mono text-[11px] font-black tracking-tighter text-sky-400">
+              NFL
+            </div>
+          </div>
+          <span className="truncate text-sm font-semibold tracking-tight group-hover:text-sky-400 transition-colors">
+            {profile.name}
           </span>
-          <span className="truncate text-sm font-semibold tracking-tight">{profile.name}</span>
         </Link>
 
         <ul className="hidden items-center justify-center gap-1 lg:flex">
