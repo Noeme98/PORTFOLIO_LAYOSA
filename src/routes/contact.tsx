@@ -25,10 +25,10 @@ export const Route = createFileRoute("/contact")({
 
 function ContactPage() {
   const links = [
-    { label: "Email Me", href: profile.links.email, primary: true },
-    { label: "LinkedIn", href: profile.links.linkedin },
-    { label: "GitHub", href: profile.links.github },
-    { label: "Download Resume", href: profile.links.resumeFile },
+    { label: "Email Me", href: profile.links.email, primary: true, external: true },
+    { label: "LinkedIn", href: profile.links.linkedin, external: true },
+    { label: "GitHub", href: profile.links.github, external: true },
+    { label: "View Resume", href: "/resume", external: false },
   ];
 
   return (
@@ -44,19 +44,31 @@ function ContactPage() {
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3">
-          {links.map((l) => (
-            <a
-              key={l.label}
-              href={l.href}
-              className={
-                l.primary
-                  ? "rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-                  : "rounded-md border border-border bg-surface px-4 py-2.5 text-sm font-medium transition-colors hover:border-border-strong hover:bg-secondary"
-              }
-            >
-              {l.label}
-            </a>
-          ))}
+          {links.map((l) =>
+            l.external ? (
+              <a
+                key={l.label}
+                href={l.href}
+                target="_blank"
+                rel="noreferrer"
+                className={
+                  l.primary
+                    ? "rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                    : "rounded-md border border-border bg-surface px-4 py-2.5 text-sm font-medium transition-colors hover:border-border-strong hover:bg-secondary"
+                }
+              >
+                {l.label}
+              </a>
+            ) : (
+              <a
+                key={l.label}
+                href={l.href}
+                className="rounded-md border border-border bg-surface px-4 py-2.5 text-sm font-medium transition-colors hover:border-border-strong hover:bg-secondary"
+              >
+                {l.label}
+              </a>
+            )
+          )}
         </div>
 
         <dl className="mt-10 grid gap-4 border-t border-border pt-6 sm:grid-cols-2">

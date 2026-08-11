@@ -83,7 +83,7 @@ function Home() {
                 to="/resume"
                 className="inline-flex items-center rounded-md border border-border bg-surface px-4 py-2.5 text-sm font-medium transition-colors hover:border-border-strong hover:bg-secondary"
               >
-                Download Resume
+                View / Print Resume
               </Link>
             </div>
 
@@ -240,14 +240,8 @@ function Home() {
               to="/resume"
               className="rounded-md bg-ink-foreground px-4 py-2.5 text-sm font-medium text-ink transition-opacity hover:opacity-90"
             >
-              Open Resume
+              View & Print Resume (PDF)
             </Link>
-            <a
-              href={profile.links.resumeFile}
-              className="rounded-md border border-white/20 px-4 py-2.5 text-sm font-medium transition-colors hover:bg-white/10"
-            >
-              Download Resume
-            </a>
           </div>
         </div>
       </section>
@@ -273,22 +267,26 @@ function Home() {
               </a>
               <a
                 href={profile.links.linkedin}
+                target="_blank"
+                rel="noreferrer"
                 className="rounded-md border border-border bg-surface px-4 py-2.5 text-sm font-medium transition-colors hover:bg-secondary"
               >
                 LinkedIn
               </a>
               <a
                 href={profile.links.github}
+                target="_blank"
+                rel="noreferrer"
                 className="rounded-md border border-border bg-surface px-4 py-2.5 text-sm font-medium transition-colors hover:bg-secondary"
               >
                 GitHub
               </a>
-              <a
-                href={profile.links.resumeFile}
+              <Link
+                to="/resume"
                 className="rounded-md border border-border bg-surface px-4 py-2.5 text-sm font-medium transition-colors hover:bg-secondary"
               >
-                Download Resume
-              </a>
+                View Resume
+              </Link>
             </div>
           </Reveal>
         </div>
