@@ -5,6 +5,7 @@ import { ClinicFlowDashboardPreview } from "@/components/clinicflow-dashboard-pr
 import { LeadFlowWorkflowPreview } from "@/components/leadflow-workflow-preview";
 import { ReceptionSystemPreview } from "@/components/reception-system-preview";
 import { RealEstateCRMPreview } from "@/components/real-estate-crm-preview";
+import { ScaledLandscapePreview } from "@/components/scaled-landscape-preview";
 import { Reveal } from "@/components/reveal";
 import { WorkflowDiagramTabs } from "@/components/workflow-diagram-tabs";
 import type { Project } from "@/data/projects";
@@ -320,28 +321,36 @@ export function ProjectCaseStudy({ project, next }: { project: Project; next: Pr
             {project.slug === "clinicflow" && (
               <div className="pt-10 border-t border-border mt-8">
                 <p className="label-mono mb-4">Interactive ClinicFlow Platform Sandbox</p>
-                <ClinicFlowDashboardPreview />
+                <ScaledLandscapePreview>
+                  <ClinicFlowDashboardPreview />
+                </ScaledLandscapePreview>
               </div>
             )}
 
             {project.slug === "leadflow" && (
               <div className="pt-10 border-t border-border mt-8">
                 <p className="label-mono mb-4">Interactive LeadFlow n8n Automation Canvas & Simulator</p>
-                <LeadFlowWorkflowPreview />
+                <ScaledLandscapePreview>
+                  <LeadFlowWorkflowPreview />
+                </ScaledLandscapePreview>
               </div>
             )}
 
             {project.slug === "real-estate-lead-engine" && (
               <div className="pt-10 border-t border-border mt-8">
                 <p className="label-mono mb-4">Interactive GoHighLevel Real Estate CRM Simulator</p>
-                <RealEstateCRMPreview />
+                <ScaledLandscapePreview>
+                  <RealEstateCRMPreview />
+                </ScaledLandscapePreview>
               </div>
             )}
 
             {project.slug === "automated-document-reception-system" && (
               <div className="pt-10 border-t border-border mt-8">
                 <p className="label-mono mb-4">Interactive Document Reception & ESP32-CAM Simulator</p>
-                <ReceptionSystemPreview />
+                <ScaledLandscapePreview>
+                  <ReceptionSystemPreview />
+                </ScaledLandscapePreview>
               </div>
             )}
           </div>
