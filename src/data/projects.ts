@@ -36,6 +36,7 @@ export interface Project {
   /** One line: the outcome. */
   result: string;
   tech: string[];
+  thumbnail?: string;
   placeholder: boolean;
   diagram: DiagramNode[];
   overview: string;
@@ -47,7 +48,7 @@ export interface Project {
   automationWorkflow: string[];
   aiComponents: string[];
   backend: string[];
-  screenshots: { caption: string; image?: string }[];
+  screenshots: { caption: string; image?: string; workflowGroup?: string }[];
   challenges: string[];
   learned: string[];
   businessValue: string[];
@@ -67,6 +68,7 @@ export const projects: Project[] = [
     automation: "ESP32 hardware sensors detect document insertion, trigger live camera stream capture, fire server-side email notifications, and log multi-node physical routing progress across departments.",
     result: "Awarded Best Thesis for innovative hardware-software integration that digitized document drop-offs, enabled photographic proof-of-delivery, and enforced strict multi-stage document routing.",
     tech: ["PHP", "Supabase", "ESP32", "ESP32-CAM", "JavaScript", "HTML5", "CSS3", "SQL"],
+    thumbnail: "/images/projects/automated-document-reception-system/admin-dashboard.png",
     placeholder: false,
     diagram: [
       { label: "Hardware Sensor & ESP32-CAM", kind: "input", detail: "ESP32 detects document drop & activates live video preview" },
@@ -200,6 +202,7 @@ export const projects: Project[] = [
     result:
       "Automated 6-hour inventory alerts, 0-duplicate 24-hour appointment reminders verified across 10+ manual test scenarios, automated daily reporting across 5 categories, and in-system AI support.",
     tech: ["React", "Vite", "Supabase", "PostgreSQL", "SQL", "n8n", "Gmail", "JavaScript"],
+    thumbnail: "/images/projects/clinicflow/dashboard.png",
     placeholder: false,
     diagram: [
       { label: "Clinic Staff & Reception", kind: "input", detail: "Inputs patient, appointment & inventory data" },
@@ -344,6 +347,207 @@ export const projects: Project[] = [
     repoUrl: "https://github.com/Noeme98",
   },
   {
+    slug: "real-estate-lead-engine",
+    name: "Real Estate Buyer/Seller Lead Qualification & Nurture Engine",
+    category: "Business Systems",
+    summary:
+      "Full-funnel GoHighLevel CRM automation managing buyer and seller lead lifecycles through six interconnected workflows, a custom intake form, lead scoring, conditional routing, pipeline state checks, and post-close referral loops.",
+    problem:
+      "Real estate leads with varying intent received generic blanket follow-up without structured routing, while automated drip campaigns often continued sending messages after an agent took over the deal.",
+    system:
+      "GoHighLevel CRM automation system integrating custom buyer/seller intake form, dual opportunity pipelines (Buyer & Seller), lead scoring engine, multi-trigger workflows, and post-close referral loops.",
+    automation:
+      "Six interconnected GoHighLevel workflows handling form-triggered routing, Hot (30+), Warm (15-29), Cold (<15) lead scoring, state-aware pipeline stall checks before message dispatch, no-show recovery, and review loops.",
+    result:
+      "Automated full-lifecycle lead management from intake to post-close review/referrals, eliminating manual lead sorting, preventing over-messaging via state checks, and capturing appointment recovery opportunities.",
+    tech: ["GoHighLevel", "CRM Automation", "Lead Scoring", "Workflows", "Pipelines", "Email Automation", "Forms", "Process Improvement"],
+    thumbnail: "/images/projects/real-estate-lead-engine/lead-router-overview.png",
+    placeholder: false,
+    diagram: [
+      { label: "Form Submitted", kind: "input", detail: "Custom Buyer/Seller Intake Form Trigger" },
+      { label: "Route by Lead Type", kind: "automation", detail: "Branches Buying vs Selling vs Fallback None" },
+      { label: "Create Opportunity & Email", kind: "data", detail: "Generates pipeline entry & dispatches confirmation" },
+      { label: "Timeline Condition", kind: "automation", detail: "Evaluates 0-3m (+20), 3-6m (+10), 6+m (+5)" },
+      { label: "Financing Condition", kind: "ai", detail: "Evaluates Pre-approved (+15), Cash (+15), Unapproved (+5)" },
+      { label: "Update Contact Field", kind: "app", detail: "Applies qualification tags & calculates Lead Score" },
+      { label: "State-Aware Nurture", kind: "output", detail: "Day 1/3/7 emails with pre-send pipeline stage checks" },
+    ],
+    overview:
+      "Built a full-funnel CRM automation system in GoHighLevel for a real estate business handling both buyer and seller leads. The system manages the lead lifecycle from intake and qualification through segmented nurture, appointment recovery, and post-close review and referral follow-up. It uses six interconnected workflows, a custom intake form, lead scoring, conditional routing, pipeline automation, and state-aware nurture logic.",
+    existingWorkflow: [
+      "Real estate team received leads with vastly different buying/selling intents through unsegmented forms",
+      "Leads remained unsorted in the CRM, receiving generic blanket follow-up regardless of timeline or financing status",
+      "Automated drip campaigns continued sending messages to leads even after an agent took over the conversation",
+      "Missed or no-show appointments lacked structured recovery follow-ups",
+      "Post-transaction lifecycle ended at conversion without automated review or referral collection",
+    ],
+    proposedWorkflow: [
+      "Custom Real Estate Buyer/Seller Intake Form captures budget, timeline, property type, financing, and lead type",
+      "Real Estate Lead Router workflow separates buyer vs seller paths, evaluates timeline & financing, applies tags, and creates CRM opportunity",
+      "Lead Scoring engine classifies buyer leads into Hot (30+), Warm (15-29), or Cold (<15) segments",
+      "Buyer & Seller Nurture workflows execute Day 1 → Day 3 → Day 7 tracks with pre-send pipeline state checks (backs off if agent advances lead out of 'New Lead')",
+      "No-Show Re-engagement workflow triggers on missed appointments to recover interested prospects",
+      "Post-Close Referral & Review Loop triggers on Closed stage to send review requests, check response status, and request referrals",
+    ],
+    solution: [
+      "Six interconnected GoHighLevel workflows connecting qualification, CRM state, automation, and follow-up into one unified system",
+      "Custom Buyer/Seller Intake Form capturing high-intent qualification data prior to CRM insertion",
+      "Lead Router evaluating Timeline (0-3m, 3-6m, 6+m) and Financing Status (Pre-approved, Cash, Not yet)",
+      "Lead Scoring model creating distinct Hot (30+), Warm (15-29), and Cold (<15) nurture segments",
+      "State-Aware Automation inserting a CRM pipeline stage check before every follow-up message to prevent over-messaging",
+      "Full-lifecycle coverage including No-Show Re-engagement, Closed-stage review requests, and referral loops",
+    ],
+    howItWorks: [
+      "1. Lead Intake — Custom Buyer/Seller Intake form captures contact info, budget, timeline (0-3m, 3-6m, 6+m), property type, financing status (pre-approved, cash, not yet), and lead type.",
+      "2. Lead Routing — Form submission triggers Real Estate Lead Router. Evaluates lead type, applies qualification tags, creates pipeline opportunity, and routes buyer vs seller paths.",
+      "3. Lead Scoring & Segmentation — Evaluates buyer lead score threshold: Hot (30+ pts), Warm (15-29 pts), Cold (<15 pts) to select appropriate nurture track.",
+      "4. State-Aware Nurture — Buyer & Seller nurture tracks fire Day 1 → Day 3 → Day 7 emails, performing a CRM pipeline state check before each send (stops automatically if agent advances lead).",
+      "5. No-Show Recovery — Appointment trigger monitors missed meetings and fires re-engagement emails.",
+      "6. Post-Close Referral Loop — Closed pipeline stage triggers review request → checks review status → sends thank-you & referral link.",
+    ],
+    features: [
+      "6 Interconnected GoHighLevel Workflows",
+      "Custom Real Estate Buyer & Seller Intake Form",
+      "Buyer vs. Seller Conditional Lead Router",
+      "Hot (30+), Warm (15-29), Cold (<15) Lead Scoring Engine",
+      "State-Aware Nurture Logic (pipeline stall checks before every email send)",
+      "Day 1 / Day 3 / Day 7 Nurture Cadence",
+      "No-Show Appointment Recovery Workflow",
+      "Post-Close Referral & Review Loop",
+      "Weekly Performance Summary Email Reporting",
+      "Dual CRM Pipelines (Buyer Leads & Seller Leads)",
+    ],
+    automationWorkflow: [
+      "Intake Form Submission → Lead Router → Buyer/Seller Condition → Timeline & Financing Check → Tagging & Opportunity Creation",
+      "Buyer Lead Score Calculation → Hot (30+), Warm (15-29), Cold (<15) Nurture Path Selection",
+      "Nurture Execution: Wait → Check if Pipeline Stage == 'New Lead' → If Yes: Send Email; If No: Stop Workflow",
+      "Appointment Status == No-Show → Trigger Re-engagement Email Sequence",
+      "Pipeline Stage == Closed → Send Review Request → Wait → Check Review Status → If Review Left: Thank You + Referral; If No Review: Reminder",
+    ],
+    aiComponents: [
+      "Lead Scoring rules-engine calculating intent index based on timeline, budget, financing status, and engagement behavior.",
+    ],
+    backend: [
+      "GoHighLevel CRM Platform (Workflows, Pipelines, Opportunities, Contacts, Tags, Custom Fields)",
+      "GoHighLevel Custom Forms Engine",
+      "GoHighLevel Automated Email & Appointment Trigger Engine",
+    ],
+    screenshots: [
+      {
+        caption: "Real Estate Lead Router Workflow Canvas (Form intake trigger, Buyer/Seller branching, & macro overview)",
+        image: "/images/projects/real-estate-lead-engine/lead-router-overview.png",
+        workflowGroup: "Workflow 1 — Real Estate Lead Router",
+      },
+      {
+        caption: "Real Estate Lead Router — Intake & Lead Type Branching Logic",
+        image: "/images/projects/real-estate-lead-engine/lead-router-intake-branching.png",
+        workflowGroup: "Workflow 1 — Real Estate Lead Router",
+      },
+      {
+        caption: "Real Estate Lead Router — Timeline 0-3 Months & Financing Qualification Branch",
+        image: "/images/projects/real-estate-lead-engine/lead-router-timeline-0to3.png",
+        workflowGroup: "Workflow 1 — Real Estate Lead Router",
+      },
+      {
+        caption: "Real Estate Lead Router — Timeline 3-6 Months Branching",
+        image: "/images/projects/real-estate-lead-engine/lead-router-timeline-3to6.png",
+        workflowGroup: "Workflow 1 — Real Estate Lead Router",
+      },
+      {
+        caption: "Real Estate Lead Router — Timeline 6+ Months Branching",
+        image: "/images/projects/real-estate-lead-engine/lead-router-timeline-6plus.png",
+        workflowGroup: "Workflow 1 — Real Estate Lead Router",
+      },
+      {
+        caption: "Buyer Nurture Drip — Day 1/3/7 Workflow Canvas Overview (Opportunity Created trigger & Hot/Warm/Cold segmentation)",
+        image: "/images/projects/real-estate-lead-engine/buyer-nurture-drip-overview.png",
+        workflowGroup: "Workflow 2 — Buyer Nurture Drip (Day 1 / Day 3 / Day 7)",
+      },
+      {
+        caption: "Buyer Nurture Drip — Hot, Warm, & Cold Parallel Track Decision Trees",
+        image: "/images/projects/real-estate-lead-engine/buyer-nurture-drip-branches.png",
+        workflowGroup: "Workflow 2 — Buyer Nurture Drip (Day 1 / Day 3 / Day 7)",
+      },
+      {
+        caption: "Buyer Nurture Drip — Day 1 State-Aware Pipeline Stall Check (If 'Pipeline stage' is not 'New Lead')",
+        image: "/images/projects/real-estate-lead-engine/buyer-nurture-drip-stallcheck-1.png",
+        workflowGroup: "Workflow 2 — Buyer Nurture Drip (Day 1 / Day 3 / Day 7)",
+      },
+      {
+        caption: "Buyer Nurture Drip — Day 3 State-Aware Pipeline Stall Check",
+        image: "/images/projects/real-estate-lead-engine/buyer-nurture-drip-stallcheck-2.png",
+        workflowGroup: "Workflow 2 — Buyer Nurture Drip (Day 1 / Day 3 / Day 7)",
+      },
+      {
+        caption: "Buyer Nurture Drip — Day 7 Final State-Aware Pipeline Stall Check",
+        image: "/images/projects/real-estate-lead-engine/buyer-nurture-drip-stallcheck-3.png",
+        workflowGroup: "Workflow 2 — Buyer Nurture Drip (Day 1 / Day 3 / Day 7)",
+      },
+      {
+        caption: "Seller Nurture Drip Workflow Canvas in GoHighLevel (Opportunity Created trigger in Seller Leads pipeline, Day 1/3/7 emails, state-aware stall checks, & completion tag)",
+        image: "/images/projects/real-estate-lead-engine/seller-nurture-drip.png",
+        workflowGroup: "Workflow 3 — Seller Nurture Drip",
+      },
+      {
+        caption: "No-Show Re-engagement Workflow Canvas in GoHighLevel (Appointment Status trigger for missed/no-show consultations, delay timer, & rescheduling email dispatch)",
+        image: "/images/projects/real-estate-lead-engine/no-show-reengagement.png",
+        workflowGroup: "Workflow 4 — No-Show Re-engagement",
+      },
+      {
+        caption: "Post-Close Referral & Review Loop Workflow Canvas in GoHighLevel (Dual Pipeline Stage Changed triggers for Closed Buyer/Seller deals, review check gate, & referral reward email)",
+        image: "/images/projects/real-estate-lead-engine/post-close-review-loop.png",
+        workflowGroup: "Workflow 5 — Post-Close Referral & Review Loop",
+      },
+      {
+        caption: "Weekly Performance Report Workflow Canvas in GoHighLevel (Contact Tag trigger for scheduled weekly report generation & executive summary email dispatch)",
+        image: "/images/projects/real-estate-lead-engine/weekly-performance-report.png",
+        workflowGroup: "Workflow 6 — Weekly Performance Summary Report",
+      },
+      {
+        caption: "Real Estate Buyer & Seller Custom Intake Form Interface (Captures First/Last Name, Phone, Email, Budget Range, Timeline, Property Type, Financing Status, & Lead Type)",
+        image: "/images/projects/real-estate-lead-engine/lead-intake-form.png",
+        workflowGroup: "Intake Form & CRM Pipeline Dashboards",
+      },
+      {
+        caption: "GoHighLevel CRM Opportunities Kanban View (Live Buyer Leads pipeline with New Lead, Qualifying, Showing Scheduled, Offer Made, and Under Contract deal cards)",
+        image: "/images/projects/real-estate-lead-engine/crm-opportunities-view.png",
+        workflowGroup: "Intake Form & CRM Pipeline Dashboards",
+      },
+      {
+        caption: "GoHighLevel Pipelines View (Dual CRM pipeline architecture managing Buyer Leads & Seller Leads stages)",
+        image: "/images/projects/real-estate-lead-engine/crm-pipelines-view.png",
+        workflowGroup: "Intake Form & CRM Pipeline Dashboards",
+      },
+      {
+        caption: "GoHighLevel Workflows List (Live published automation engines: Buyer Nurture Drip, No-Show Re-engagement, Post-Close Review Loop, Lead Router, Seller Nurture Drip, & Weekly Performance Report)",
+        image: "/images/projects/real-estate-lead-engine/gohighlevel-workflows-list.png",
+        workflowGroup: "GoHighLevel Workflows List & System Overview",
+      },
+      {
+        caption: "GoHighLevel CRM Dashboard & Funnel Analytics View (Live Opportunity Status donut chart, Sales Funnel conversion rates, and Stage Distribution metrics)",
+        image: "/images/projects/real-estate-lead-engine/crm-dashboard-analytics.png",
+        workflowGroup: "Intake Form & CRM Pipeline Dashboards",
+      },
+    ],
+    challenges: [
+      "Preventing automated emails from continuing after an agent manually connects with a lead: Solved by placing a state-aware pipeline check before every email send step.",
+      "Handling leads that submit forms without indicating Buyer or Seller intent: Solved by adding a safe fallback routing branch that alerts staff while assigning default qualification tags.",
+    ],
+    learned: [
+      "State-aware automation transforms CRM workflows from simple drip sequences into responsive business engines.",
+      "Extending automation beyond conversion into post-close reviews and referrals maximizes customer lifetime value and organic lead generation.",
+    ],
+    businessValue: [
+      "Full-funnel lead lifecycle automation from intake through post-close referrals",
+      "Zero over-messaging with state-aware pipeline checks before every email send",
+      "Automated lead scoring separating Hot (30+), Warm (15-29), and Cold (<15) prospects",
+      "Reclaimed lost deals with automated No-Show appointment recovery",
+      "Automated review & referral generation following deal closure",
+    ],
+    demoUrl: null,
+    repoUrl: null,
+  },
+  {
     slug: "leadflow",
     name: "LeadFlow — AI-Powered Lead Intake & Automated Response System",
     category: "AI Automation",
@@ -358,6 +562,7 @@ export const projects: Project[] = [
     result:
       "100% automated lead qualification, zero-loss raw submission logging, structured error handling preventing silent failures, instant PDF welcome document generation, multi-channel response routing, and centralized Notion tracking.",
     tech: ["n8n", "Google Gemini", "Google Sheets", "Notion", "Slack", "Gmail", "PDFShift", "JSON", "JavaScript"],
+    thumbnail: "/images/projects/leadflow/n8n-workflow-canvas.png",
     placeholder: false,
     diagram: [
       { label: "Form Submission", kind: "input", detail: "n8n Form Trigger (Name, Email, Company, Message)" },
@@ -511,6 +716,7 @@ export const projects: Project[] = [
     result:
       "Increased daily processing capacity from 100–150 records per day manually to approximately 400 records per day automatically, clearing a 7-year administrative backlog.",
     tech: ["Ui.Vision RPA", "JavaScript", "Excel", "IHOMIS", "Workflow Automation", "Process Improvement"],
+    thumbnail: "/images/projects/ihomis-patient-data-migration/thumbnail.png",
     placeholder: false,
     diagram: [
       { label: "Excel Backlog (2019–2026)", kind: "input", detail: "4,000+ unmigrated patient records in spreadsheets" },

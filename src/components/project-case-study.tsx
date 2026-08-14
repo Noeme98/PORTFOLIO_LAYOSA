@@ -4,7 +4,9 @@ import { ArchitectureDiagram } from "@/components/architecture-diagram";
 import { ClinicFlowDashboardPreview } from "@/components/clinicflow-dashboard-preview";
 import { LeadFlowWorkflowPreview } from "@/components/leadflow-workflow-preview";
 import { ReceptionSystemPreview } from "@/components/reception-system-preview";
+import { RealEstateCRMPreview } from "@/components/real-estate-crm-preview";
 import { Reveal } from "@/components/reveal";
+import { WorkflowDiagramTabs } from "@/components/workflow-diagram-tabs";
 import type { Project } from "@/data/projects";
 import { profile } from "@/data/site";
 import { ZoomIn, X, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
@@ -155,8 +157,12 @@ export function ProjectCaseStudy({ project, next }: { project: Project; next: Pr
           </div>
         </Block>
 
-        <Block label="05" heading="Architecture Diagram">
-          <ArchitectureDiagram nodes={project.diagram} caption="How data moves through the system." />
+        <Block label="05" heading="Architecture Diagrams & Workflow Logic">
+          {project.slug === "real-estate-lead-engine" ? (
+            <WorkflowDiagramTabs />
+          ) : (
+            <ArchitectureDiagram nodes={project.diagram} caption="How data moves through the system." />
+          )}
           <div className="mt-8">
             <p className="label-mono mb-3">How it works</p>
             <List items={project.howItWorks} />
@@ -200,43 +206,116 @@ export function ProjectCaseStudy({ project, next }: { project: Project; next: Pr
 
         <Block label="11" heading="Screenshots & System Evidence">
           <div className="space-y-10">
+            <div className="rounded-xl border border-amber-500/30 bg-amber-950/20 p-4 text-xs font-mono text-amber-200/90 leading-relaxed space-y-1 shadow-xs">
+              <div className="font-bold text-amber-300 flex items-center gap-1.5 text-xs">
+                <span>ℹ️ Builder Screenshot Resolution & Interactive Diagrams Note</span>
+              </div>
+              <p className="text-[11px] text-amber-200/80">
+                Due to wide-canvas zooming and high node density within the native GoHighLevel builder interface, some workflow canvas screenshots may appear zoomed-out or compact. For full step-by-step logic clarity, refer to the <strong>High-Resolution Architecture Diagrams</strong> in Section 05 or click any screenshot below to expand in full resolution.
+              </p>
+            </div>
+
             <p className="text-xs text-muted-foreground font-mono">
               💡 Click any screenshot to view in full resolution or open in a new tab.
             </p>
-            <div className="grid gap-8 sm:grid-cols-2">
-              {project.screenshots.map((s, i) => (
-                <figure
-                  key={i}
-                  onClick={() => s.image && setActiveImageIndex(i)}
-                  className={`group relative overflow-hidden rounded-xl border border-border bg-surface shadow-soft transition-all ${
-                    s.image ? "cursor-pointer hover:border-emerald-500/50 hover:shadow-lift" : ""
-                  }`}
-                >
-                  {s.image ? (
-                    <div className="relative">
-                      <img
-                        src={s.image}
-                        alt={s.caption}
-                        className="w-full h-auto object-cover border-b border-border transition-transform duration-300 group-hover:scale-[1.01]"
-                        loading="lazy"
-                      />
-                      {/* Zoom Indicator Hover Overlay */}
-                      <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-medium text-xs backdrop-blur-xs">
-                        <ZoomIn className="h-4 w-4 text-emerald-400" />
-                        <span>Click to Enlarge</span>
+
+            {(() => {
+              const hasGroups = project.screenshots.some((s) => s.workflowGroup);
+              
+              if (!hasGroups) {
+                return (
+                  <div className="grid gap-8 sm:grid-cols-2">
+                    {project.screenshots.map((s, i) => (
+                      <figure
+                        key={i}
+                        onClick={() => s.image && setActiveImageIndex(i)}
+                        className={`group relative overflow-hidden rounded-xl border border-border bg-surface shadow-soft transition-all ${
+                          s.image ? "cursor-pointer hover:border-emerald-500/50 hover:shadow-lift" : ""
+                        }`}
+                      >
+                        {s.image ? (
+                          <div className="relative">
+                            <img
+                              src={s.image}
+                              alt={s.caption}
+                              className="w-full h-auto object-cover border-b border-border transition-transform duration-300 group-hover:scale-[1.01]"
+                              loading="lazy"
+                            />
+                            <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-medium text-xs backdrop-blur-xs">
+                              <ZoomIn className="h-4 w-4 text-emerald-400" />
+                              <span>Click to Enlarge</span>
+                            </div>
+                            <figcaption className="p-4 sm:p-5 text-xs font-mono font-medium text-muted-foreground bg-surface group-hover:text-foreground transition-colors leading-relaxed">
+                              {s.caption}
+                            </figcaption>
+                          </div>
+                        ) : (
+                          <div className="p-8 text-center">
+                            <figcaption className="text-xs text-muted-foreground">{s.caption}</figcaption>
+                          </div>
+                        )}
+                      </figure>
+                    ))}
+                  </div>
+                );
+              }
+
+              const groups: Record<string, { item: (typeof project.screenshots)[number]; globalIndex: number }[]> = {};
+              project.screenshots.forEach((s, idx) => {
+                const groupName = s.workflowGroup || "General Screenshots";
+                if (!groups[groupName]) groups[groupName] = [];
+                groups[groupName].push({ item: s, globalIndex: idx });
+              });
+
+              return (
+                <div className="space-y-12">
+                  {Object.entries(groups).map(([groupTitle, groupItems]) => (
+                    <div key={groupTitle} className="space-y-4">
+                      <div className="flex items-center gap-3 border-b border-border/80 pb-2">
+                        <span className="font-mono text-sm font-bold text-foreground tracking-tight">{groupTitle}</span>
+                        <span className="rounded-full bg-primary/10 border border-primary/20 px-2.5 py-0.5 font-mono text-[10px] font-semibold text-primary">
+                          {groupItems.length} Screenshots
+                        </span>
                       </div>
-                      <figcaption className="p-4 sm:p-5 text-xs font-mono font-medium text-muted-foreground bg-surface group-hover:text-foreground transition-colors leading-relaxed">
-                        {s.caption}
-                      </figcaption>
+
+                      <div className="grid gap-6 sm:grid-cols-2">
+                        {groupItems.map(({ item: s, globalIndex }) => (
+                          <figure
+                            key={globalIndex}
+                            onClick={() => s.image && setActiveImageIndex(globalIndex)}
+                            className={`group relative overflow-hidden rounded-xl border border-border bg-surface shadow-soft transition-all ${
+                              s.image ? "cursor-pointer hover:border-emerald-500/50 hover:shadow-lift" : ""
+                            }`}
+                          >
+                            {s.image ? (
+                              <div className="relative">
+                                <img
+                                  src={s.image}
+                                  alt={s.caption}
+                                  className="w-full h-auto object-cover border-b border-border transition-transform duration-300 group-hover:scale-[1.01]"
+                                  loading="lazy"
+                                />
+                                <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-medium text-xs backdrop-blur-xs">
+                                  <ZoomIn className="h-4 w-4 text-emerald-400" />
+                                  <span>Click to Enlarge</span>
+                                </div>
+                                <figcaption className="p-4 sm:p-5 text-xs font-mono font-medium text-muted-foreground bg-surface group-hover:text-foreground transition-colors leading-relaxed">
+                                  {s.caption}
+                                </figcaption>
+                              </div>
+                            ) : (
+                              <div className="p-8 text-center">
+                                <figcaption className="text-xs text-muted-foreground">{s.caption}</figcaption>
+                              </div>
+                            )}
+                          </figure>
+                        ))}
+                      </div>
                     </div>
-                  ) : (
-                    <div className="p-8 text-center">
-                      <figcaption className="text-xs text-muted-foreground">{s.caption}</figcaption>
-                    </div>
-                  )}
-                </figure>
-              ))}
-            </div>
+                  ))}
+                </div>
+              );
+            })()}
 
             {project.slug === "clinicflow" && (
               <div className="pt-10 border-t border-border mt-8">
@@ -249,6 +328,13 @@ export function ProjectCaseStudy({ project, next }: { project: Project; next: Pr
               <div className="pt-10 border-t border-border mt-8">
                 <p className="label-mono mb-4">Interactive LeadFlow n8n Automation Canvas & Simulator</p>
                 <LeadFlowWorkflowPreview />
+              </div>
+            )}
+
+            {project.slug === "real-estate-lead-engine" && (
+              <div className="pt-10 border-t border-border mt-8">
+                <p className="label-mono mb-4">Interactive GoHighLevel Real Estate CRM Simulator</p>
+                <RealEstateCRMPreview />
               </div>
             )}
 

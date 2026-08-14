@@ -1,32 +1,133 @@
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import type { Project } from "@/data/projects";
 import { FlowPreview } from "@/components/flow-preview";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ClinicFlowDashboardPreview } from "@/components/clinicflow-dashboard-preview";
+import { LeadFlowWorkflowPreview } from "@/components/leadflow-workflow-preview";
+import { ReceptionSystemPreview } from "@/components/reception-system-preview";
+import { IHOMISMigrationPreview } from "@/components/ihomis-migration-preview";
+import { RealEstateCRMPreview } from "@/components/real-estate-crm-preview";
+import { ArrowRight, Image as ImageIcon, Network, Sparkles, Zap } from "lucide-react";
 
 /**
- * Project card: name, category, one-line problem, one-line solution,
- * core technologies, a system preview, and the case-study link.
+ * Render the live interactive system logic component for each project slug.
+ */
+function renderLiveLogic(slug: string) {
+  switch (slug) {
+    case "automated-document-reception-system":
+      return <ReceptionSystemPreview />;
+    case "clinicflow":
+      return <ClinicFlowDashboardPreview />;
+    case "real-estate-lead-engine":
+      return <RealEstateCRMPreview />;
+    case "leadflow":
+      return <LeadFlowWorkflowPreview />;
+    case "ihomis-patient-data-migration":
+      return <IHOMISMigrationPreview />;
+    default:
+      return null;
+  }
+}
+
+/**
+ * Project card: name, category, live interactive system logic preview,
+ * architecture diagram, screenshot mockup, problem/system narrative, tech tags, and case-study link.
  */
 export function ProjectCard({ project }: { project: Project }) {
+  const [activeTab, setActiveTab] = useState<"logic" | "diagram" | "screenshot">("logic");
+
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border/80 bg-surface/90 backdrop-blur-xs transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-lift hover:shadow-primary/5">
-      <div className="relative overflow-hidden border-b border-border/80 bg-background/80 p-5">
-        <div className="grid-lines pointer-events-none absolute inset-0 opacity-40" aria-hidden="true" />
-        <div className="relative">
-          <div className="flex items-center justify-between gap-3">
-            <span className="label-mono flex items-center gap-1">
-              <Sparkles className="h-3 w-3 text-sky-400" /> System Architecture Preview
-            </span>
-            <span className="rounded-full bg-primary/10 border border-primary/20 px-2 py-0.5 font-mono text-[10px] font-semibold text-primary">
-              {project.diagram.length} Nodes
-            </span>
+      {/* Top Preview Header Section */}
+      <div className="relative overflow-hidden border-b border-border/80 bg-background/90 p-4 sm:p-5">
+        <div className="grid-lines pointer-events-none absolute inset-0 opacity-30" aria-hidden="true" />
+        
+        {/* View Toggle Bar */}
+        <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 pb-3">
+          <span className="label-mono flex items-center gap-1.5 text-xs font-semibold text-emerald-400">
+            <Zap className="h-3.5 w-3.5 text-emerald-400 animate-pulse" />
+            {activeTab === "logic"
+              ? "Live System Logic"
+              : activeTab === "diagram"
+              ? "System Architecture"
+              : "Screenshot Preview"}
+          </span>
+
+          <div className="flex items-center rounded-lg border border-border/80 bg-secondary/80 p-0.5 text-[11px] font-mono">
+            <button
+              type="button"
+              onClick={() => setActiveTab("logic")}
+              className={`flex items-center gap-1 rounded-md px-2.5 py-1 transition-all ${
+                activeTab === "logic"
+                  ? "bg-primary text-primary-foreground shadow-xs font-semibold"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Zap className="h-3 w-3" />
+              <span>Live Logic</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveTab("diagram")}
+              className={`flex items-center gap-1 rounded-md px-2.5 py-1 transition-all ${
+                activeTab === "diagram"
+                  ? "bg-primary text-primary-foreground shadow-xs font-semibold"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Network className="h-3 w-3" />
+              <span>Flow</span>
+            </button>
+
+            {project.thumbnail && (
+              <button
+                type="button"
+                onClick={() => setActiveTab("screenshot")}
+                className={`flex items-center gap-1 rounded-md px-2.5 py-1 transition-all ${
+                  activeTab === "screenshot"
+                    ? "bg-primary text-primary-foreground shadow-xs font-semibold"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <ImageIcon className="h-3 w-3" />
+                <span>Mockup</span>
+              </button>
+            )}
           </div>
-          <div className="mt-3">
-            <FlowPreview nodes={project.diagram} />
-          </div>
+        </div>
+
+        {/* Dynamic Display Area */}
+        <div className="relative z-0">
+          {activeTab === "logic" ? (
+            <div className="max-h-[380px] overflow-y-auto rounded-xl border border-border/70 bg-background/95 p-2 sm:p-3 shadow-inner scrollbar-thin">
+              {renderLiveLogic(project.slug)}
+            </div>
+          ) : activeTab === "diagram" ? (
+            <div className="mt-1 min-h-[160px] flex items-center justify-center p-3 rounded-xl border border-border/60 bg-muted/20">
+              <FlowPreview nodes={project.diagram} />
+            </div>
+          ) : (
+            <div className="relative aspect-[16/9] overflow-hidden rounded-xl border border-border/60 bg-muted/40">
+              {project.thumbnail ? (
+                <img
+                  src={project.thumbnail}
+                  alt={`${project.name} thumbnail`}
+                  className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10 p-4 text-center">
+                  <span className="font-mono text-xs text-muted-foreground">No Screenshot Available</span>
+                </div>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-60" />
+            </div>
+          )}
         </div>
       </div>
 
+      {/* Card Content Body */}
       <div className="flex flex-1 flex-col p-5 sm:p-6">
         <div className="flex items-center justify-between gap-3">
           <span className="rounded-lg border border-primary/20 bg-primary/5 px-2.5 py-1 font-mono text-[10px] font-semibold tracking-wider text-primary uppercase">
