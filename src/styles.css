@@ -127,14 +127,13 @@
     border-color: var(--color-border);
   }
 
-  /* Smooth, unified theme transition across all UI elements */
-  body,
-  body *,
-  body *::before,
-  body *::after {
-    transition-property: color, background-color, border-color, box-shadow, fill, stroke;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 350ms;
+  /* Guaranteed 100% synchronized theme transition across all boxes & elements */
+  *,
+  *::before,
+  *::after {
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, box-shadow, fill, stroke !important;
+    transition-duration: 250ms !important;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
 
   html {

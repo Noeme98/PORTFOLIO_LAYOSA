@@ -56,10 +56,10 @@ export function ScaledLandscapePreview({
   return (
     <div
       ref={containerRef}
-      className="group/landscape relative w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-border/80 bg-slate-950/90 shadow-xl transition-all duration-200"
+      className="group/landscape relative w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-border/80 bg-card shadow-xl transition-all duration-200"
     >
       {/* Widescreen OS Window Header Bar */}
-      <div className="flex items-center justify-between border-b border-border/70 bg-slate-900/90 px-3 py-2 text-xs select-none">
+      <div className="flex items-center justify-between border-b border-border/70 bg-muted/70 px-3 py-2 text-xs select-none">
         <div className="flex items-center gap-2 min-w-0">
           {/* macOS Traffic Lights */}
           <div className="flex items-center gap-1.5 shrink-0">
@@ -68,10 +68,10 @@ export function ScaledLandscapePreview({
             <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80 opacity-85" />
           </div>
 
-          <div className="ml-1 flex items-center gap-1.5 font-mono text-[11px] text-slate-300 font-medium truncate">
+          <div className="ml-1 flex items-center gap-1.5 font-mono text-[11px] text-foreground/80 font-medium truncate">
             <Monitor className="h-3 w-3 text-sky-400 shrink-0" />
-            <span className="hidden sm:inline text-slate-400 font-mono">16:10 View</span>
-            <span className="hidden sm:inline text-slate-600">·</span>
+            <span className="hidden sm:inline text-muted-foreground font-mono">16:10 View</span>
+            <span className="hidden sm:inline text-muted-foreground/50">·</span>
             <span className="text-emerald-400 font-semibold">{scalePercent}% View</span>
           </div>
         </div>
@@ -86,7 +86,7 @@ export function ScaledLandscapePreview({
 
       {/* Scaled Viewport Container */}
       <div
-        className="relative w-full min-w-0 max-w-full overflow-hidden bg-background/95 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        className="relative w-full min-w-0 max-w-full overflow-hidden bg-background [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         style={{ height: `${scaledHeight}px` }}
       >
         <div
