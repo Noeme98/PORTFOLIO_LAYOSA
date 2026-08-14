@@ -86,7 +86,7 @@ export function ScaledLandscapePreview({
 
       {/* Scaled Viewport Container */}
       <div
-        className="relative w-full overflow-auto scrollbar-thin bg-background/95"
+        className="relative w-full overflow-hidden bg-background/95 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         style={{ height: `${scaledHeight}px` }}
       >
         <div
