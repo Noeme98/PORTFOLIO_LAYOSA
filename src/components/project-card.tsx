@@ -7,6 +7,7 @@ import { LeadFlowWorkflowPreview } from "@/components/leadflow-workflow-preview"
 import { ReceptionSystemPreview } from "@/components/reception-system-preview";
 import { IHOMISMigrationPreview } from "@/components/ihomis-migration-preview";
 import { RealEstateCRMPreview } from "@/components/real-estate-crm-preview";
+import { ScaledLandscapePreview } from "@/components/scaled-landscape-preview";
 import { ArrowRight, Image as ImageIcon, Network, Sparkles, Zap } from "lucide-react";
 
 /**
@@ -100,9 +101,9 @@ export function ProjectCard({ project }: { project: Project }) {
         {/* Dynamic Display Area */}
         <div className="relative z-0">
           {activeTab === "logic" ? (
-            <div className="max-h-[380px] overflow-y-auto rounded-xl border border-border/70 bg-background/95 p-2 sm:p-3 shadow-inner scrollbar-thin">
+            <ScaledLandscapePreview title={`${project.name} — Live System Logic`}>
               {renderLiveLogic(project.slug)}
-            </div>
+            </ScaledLandscapePreview>
           ) : activeTab === "diagram" ? (
             <div className="mt-1 min-h-[160px] flex items-center justify-center p-3 rounded-xl border border-border/60 bg-muted/20">
               <FlowPreview nodes={project.diagram} />
