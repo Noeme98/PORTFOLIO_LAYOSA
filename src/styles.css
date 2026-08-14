@@ -127,6 +127,16 @@
     border-color: var(--color-border);
   }
 
+  /* Smooth, unified theme transition across all UI elements */
+  body,
+  body *,
+  body *::before,
+  body *::after {
+    transition-property: color, background-color, border-color, box-shadow, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 350ms;
+  }
+
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
