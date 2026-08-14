@@ -61,9 +61,9 @@ function ProjectsPage() {
         ))}
       </div>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-2">
+      <div className="mt-8 grid gap-6 lg:grid-cols-2 min-w-0 w-full">
         {shown.map((p, i) => (
-          <Reveal key={p.slug} delay={i * 60}>
+          <Reveal key={p.slug} delay={i * 60} className="min-w-0 w-full">
             <ProjectCard project={p} />
           </Reveal>
         ))}

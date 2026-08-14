@@ -185,9 +185,9 @@ function Home() {
             </Reveal>
           </div>
 
-          <div className="grid gap-8 lg:grid-cols-2">
+          <div className="grid gap-8 lg:grid-cols-2 min-w-0 w-full">
             {projects.map((p, i) => (
-              <Reveal key={p.slug} delay={i * 80} as="div">
+              <Reveal key={p.slug} delay={i * 80} as="div" className="min-w-0 w-full">
                 <ProjectCard project={p} />
               </Reveal>
             ))}

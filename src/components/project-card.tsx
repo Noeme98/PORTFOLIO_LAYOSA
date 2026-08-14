@@ -38,9 +38,9 @@ export function ProjectCard({ project }: { project: Project }) {
   const [activeTab, setActiveTab] = useState<"logic" | "diagram" | "screenshot">("logic");
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border/80 bg-surface/90 backdrop-blur-xs transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-lift hover:shadow-primary/5">
+    <article className="group flex h-full min-w-0 w-full max-w-full flex-col overflow-hidden rounded-2xl border border-border/80 bg-surface/90 backdrop-blur-xs transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-lift hover:shadow-primary/5">
       {/* Top Preview Header Section */}
-      <div className="relative overflow-hidden border-b border-border/80 bg-background/90 p-4 sm:p-5">
+      <div className="relative min-w-0 w-full max-w-full overflow-hidden border-b border-border/80 bg-background/90 p-4 sm:p-5">
         <div className="grid-lines pointer-events-none absolute inset-0 opacity-30" aria-hidden="true" />
         
         {/* View Toggle Bar */}
@@ -99,7 +99,7 @@ export function ProjectCard({ project }: { project: Project }) {
         </div>
 
         {/* Dynamic Display Area */}
-        <div className="relative z-0">
+        <div className="relative z-0 min-w-0 w-full max-w-full">
           {activeTab === "logic" ? (
             <ScaledLandscapePreview title={`${project.name} — Live System Logic`}>
               {renderLiveLogic(project.slug)}
