@@ -332,6 +332,37 @@ Do not merely display screenshots.
 
 --------------------------------------------------
 
+PROJECT 1: ServiceM8-style Job Management → ClickUp
+
+--------------------------------------------------
+
+n8n Workflow Automation · API Integration · ClickUp · Webhooks · JavaScript
+
+A job-management automation that receives ServiceM8-style job events, validates and transforms the data, synchronizes jobs with ClickUp, prevents duplicate records, manages job lifecycle changes, and creates operational follow-up tasks automatically.
+
+Project type: Self-built portfolio/demo project
+Source system: Mock ServiceM8-style data
+Automation engine: n8n
+Destination: ClickUp
+
+The Problem:
+Field service operations often depend on several pieces of job information moving through the workflow at the right time. A new job needs to become an operational task. Customer details need to stay attached to that job. Status changes need to reach the team. Billing information needs to remain synchronized. Repeat webhook events should update the existing job instead of creating another record.
+
+The System:
+n8n workflow with webhook entry point and ClickUp operational destination.
+ServiceM8-style Event → Webhook → Normalize → Validate → Find Job → Create / Update → Status Logic → Task Automation → Billing Sync → Follow-up
+
+How the Automation Works:
+01. Receive Job Event (POST webhook at /servicem8-job)
+02. Normalize Data (flatten nested customer info: customer_name, customer_email, customer_phone, customer_address)
+03. Validate Required Fields (Job UUID, Customer Name, Job Status guard gate)
+04. Find Existing Job (ClickUp custom field search by Job UUID, excluding checklists & follow-ups)
+05. Create or Update ClickUp Job (Idempotent update if found, create task if new)
+06. Lifecycle Automation (First Site Visit → Daily Checklist; Completed → Closeout, Invoice/Payment Sync, 6-Month Follow-up)
+07. Error Handling (Sanitized execution log output preserving credentials)
+
+--------------------------------------------------
+
 PROJECT CATEGORIES
 
 --------------------------------------------------

@@ -5,6 +5,7 @@ import { ClinicFlowDashboardPreview } from "@/components/clinicflow-dashboard-pr
 import { LeadFlowWorkflowPreview } from "@/components/leadflow-workflow-preview";
 import { ReceptionSystemPreview } from "@/components/reception-system-preview";
 import { RealEstateCRMPreview } from "@/components/real-estate-crm-preview";
+import { ServiceM8WorkflowPreview } from "@/components/servicem8-workflow-preview";
 import { ScaledLandscapePreview } from "@/components/scaled-landscape-preview";
 import { Reveal } from "@/components/reveal";
 import { WorkflowDiagramTabs } from "@/components/workflow-diagram-tabs";
@@ -207,14 +208,16 @@ export function ProjectCaseStudy({ project, next }: { project: Project; next: Pr
 
         <Block label="11" heading="Screenshots & System Evidence">
           <div className="space-y-10">
-            <div className="rounded-xl border border-amber-500/30 bg-amber-950/20 p-4 text-xs font-mono text-amber-200/90 leading-relaxed space-y-1 shadow-xs">
-              <div className="font-bold text-amber-300 flex items-center gap-1.5 text-xs">
-                <span>ℹ️ Builder Screenshot Resolution & Interactive Diagrams Note</span>
+            {project.slug === "real-estate-lead-engine" && (
+              <div className="rounded-xl border border-amber-500/30 bg-amber-950/20 p-4 text-xs font-mono text-amber-200/90 leading-relaxed space-y-1 shadow-xs">
+                <div className="font-bold text-amber-300 flex items-center gap-1.5 text-xs">
+                  <span>ℹ️ Builder Screenshot Resolution & Interactive Diagrams Note</span>
+                </div>
+                <p className="text-[11px] text-amber-200/80">
+                  Due to wide-canvas zooming and high node density within the native GoHighLevel builder interface, some workflow canvas screenshots may appear zoomed-out or compact. For full step-by-step logic clarity, refer to the <strong>High-Resolution Architecture Diagrams</strong> in Section 05 or click any screenshot below to expand in full resolution.
+                </p>
               </div>
-              <p className="text-[11px] text-amber-200/80">
-                Due to wide-canvas zooming and high node density within the native GoHighLevel builder interface, some workflow canvas screenshots may appear zoomed-out or compact. For full step-by-step logic clarity, refer to the <strong>High-Resolution Architecture Diagrams</strong> in Section 05 or click any screenshot below to expand in full resolution.
-              </p>
-            </div>
+            )}
 
             <p className="text-xs text-muted-foreground font-mono">
               💡 Click any screenshot to view in full resolution or open in a new tab.
@@ -317,6 +320,15 @@ export function ProjectCaseStudy({ project, next }: { project: Project; next: Pr
                 </div>
               );
             })()}
+
+            {project.slug === "servicem8-job-management-clickup" && (
+              <div className="pt-10 border-t border-border mt-8">
+                <p className="label-mono mb-4">Interactive ServiceM8 → ClickUp n8n Automation Simulator</p>
+                <ScaledLandscapePreview>
+                  <ServiceM8WorkflowPreview />
+                </ScaledLandscapePreview>
+              </div>
+            )}
 
             {project.slug === "clinicflow" && (
               <div className="pt-10 border-t border-border mt-8">

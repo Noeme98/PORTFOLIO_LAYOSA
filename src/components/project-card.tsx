@@ -7,6 +7,7 @@ import { LeadFlowWorkflowPreview } from "@/components/leadflow-workflow-preview"
 import { ReceptionSystemPreview } from "@/components/reception-system-preview";
 import { IHOMISMigrationPreview } from "@/components/ihomis-migration-preview";
 import { RealEstateCRMPreview } from "@/components/real-estate-crm-preview";
+import { ServiceM8WorkflowPreview } from "@/components/servicem8-workflow-preview";
 import { ScaledLandscapePreview } from "@/components/scaled-landscape-preview";
 import { ArrowRight, Image as ImageIcon, Network, Sparkles, Zap } from "lucide-react";
 
@@ -15,6 +16,8 @@ import { ArrowRight, Image as ImageIcon, Network, Sparkles, Zap } from "lucide-r
  */
 function renderLiveLogic(slug: string) {
   switch (slug) {
+    case "servicem8-job-management-clickup":
+      return <ServiceM8WorkflowPreview />;
     case "automated-document-reception-system":
       return <ReceptionSystemPreview />;
     case "clinicflow":

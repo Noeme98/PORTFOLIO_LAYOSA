@@ -1,6 +1,7 @@
 // Neil Francis Layosa's Projects & Case Studies
 
 export const categories = [
+  "Workflow Automation",
   "Web Applications",
   "AI Automation",
   "Internal Tools",
@@ -57,6 +58,186 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  {
+    slug: "servicem8-job-management-clickup",
+    name: "ServiceM8-style Job Management → ClickUp",
+    category: "Workflow Automation",
+    summary:
+      "A job-management automation that receives ServiceM8-style job events via webhooks, validates and transforms data, synchronizes jobs with ClickUp, prevents duplicate records, manages job lifecycle changes, and creates operational follow-up tasks automatically.",
+    problem:
+      "Field service operations often depend on several pieces of job information moving through the workflow at the right time. Manual copying or unsafe webhook handlers cause missing fields, duplicate records, un-synchronized billing, and lost follow-up tasks.",
+    system:
+      "n8n workflow integration receiving webhook payloads from ServiceM8-style job events, performing normalization, validating core fields, executing idempotency searches in ClickUp using external Job UUIDs, and updating ClickUp custom fields & tasks.",
+    automation:
+      "Automated payload extraction, Job UUID duplicate prevention, dynamic status mapping (In Progress / Closeout), daily checklist creation, billing state sync (Invoice/Payment), 6-month automated follow-up scheduling, and sanitized error logging.",
+    result:
+      "Built a robust, replay-safe field service integration that guarantees zero duplicate records, automates daily checklist and 6-month follow-up task creation, synchronizes invoice and payment states, and provides observable error logging.",
+    tech: ["n8n", "ClickUp API", "Webhooks", "JavaScript", "REST APIs", "JSON"],
+    thumbnail: "/images/projects/servicem8-job-management-clickup/n8n-workflow.png",
+    placeholder: false,
+    diagram: [
+      { label: "ServiceM8 Event Payload", kind: "input", detail: "POST webhook with Job UUID, customer info, status & billing data" },
+      { label: "n8n Webhook & Validation", kind: "automation", detail: "Validates Job UUID, Customer Name & Status before processing" },
+      { label: "Payload Normalization", kind: "app", detail: "Transforms nested customer data into predictable JS object" },
+      { label: "ClickUp Duplicate Search", kind: "data", detail: "Searches ClickUp by Job UUID (excluding checklists & follow-ups)" },
+      { label: "Create / Update Job Task", kind: "app", detail: "Idempotently updates existing ClickUp task or creates new record" },
+      { label: "Lifecycle & Task Automation", kind: "output", detail: "First Site Visit → Daily Checklist; Completed → Closeout & Billing Sync + 6-Month Follow-Up" },
+    ],
+    overview:
+      "A job-management automation project designed and built around real field-service operations. Incoming job events from a ServiceM8-style source system are captured via authenticated webhooks, normalized using JavaScript, validated against missing data, and synchronized into ClickUp as operational tasks. The architecture prioritizes duplicate and replay safety, ensuring that repeated webhook triggers update existing records rather than creating redundant tasks. Supporting workflows handle daily site visit checklists, closeout billing synchronization, six-month client follow-ups, and sanitized error logging.",
+    existingWorkflow: [
+      "Field service managers manually copied job details from email or dispatch tools into project management software",
+      "Repeat webhook dispatches or retried web events created duplicate tasks in ClickUp, cluttering operational lists",
+      "First site visits lacked structured daily checklists, leading to missed site inspections and inconsistent field protocols",
+      "Completed jobs required manual status updates across separate billing and project tools, risking outdated invoice states",
+      "Six-month post-completion client follow-ups were routinely forgotten due to a lack of automated task scheduling",
+      "Failed automation webhooks failed silently without diagnostic logs or exposed API credentials in raw error outputs",
+    ],
+    proposedWorkflow: [
+      "Source system dispatches authenticated POST webhook event to n8n servicem8-job endpoint",
+      "JavaScript node normalizes nested payload (customer details, job UUID, status, description, staff, billing states)",
+      "Validation guard node verifies Job UUID, Customer Name, and Job Status exist; missing data triggers a controlled rejection response",
+      "n8n queries ClickUp custom fields for existing Job UUID, explicitly filtering out past checklists and follow-up tasks",
+      "If matching Job UUID exists, update existing ClickUp task; if absent, create new ClickUp task with populated custom fields",
+      "Status mapping engine detects 'In Progress' states to trigger Daily Checklist creation (checked for date-level duplication)",
+      "Completion state maps job to 'Closeout', synchronizes Invoice & Payment custom fields, and schedules 6-Month Follow-up task",
+      "Sanitized error handler captures failed nodes and error messages for execution logs without exposing API credentials",
+    ],
+    solution: [
+      "Authenticated POST Webhook Endpoint in n8n for ServiceM8-style event ingestion",
+      "JavaScript Data Normalization Module extracting nested customer fields into a flat, predictable structure",
+      "Validation Engine enforcing required fields (Job UUID, Customer Name, Job Status) prior to external API writes",
+      "ClickUp API Integration with custom field search for external Job UUID matching and idempotent task updates",
+      "Daily Checklist Automation generating date-stamped checklists for first site visits with strict existence checks",
+      "Closeout & Billing Synchronization updating ClickUp Invoice Status and Payment Status custom fields upon job completion",
+      "6-Month Follow-up Engine calculating future due dates and creating single follow-up tasks tied to external Job UUIDs",
+      "Sanitized Error Logger capturing failed node, error message, and timestamp while stripping sensitive auth headers",
+    ],
+    howItWorks: [
+      "01. Receive Job Event — Authenticated POST webhook receives payload at /servicem8-job endpoint and passes data forward",
+      "02. Normalize Data — JavaScript node flattens nested customer details (name, email, phone, address) and carries forward job metadata",
+      "03. Validate Required Fields — Guard node checks for Job UUID, Customer Name, and Job Status; missing fields return a controlled error response",
+      "04. Search ClickUp by External Key — n8n queries ClickUp list for matching Job UUID custom field, ignoring secondary checklist & follow-up tasks",
+      "05. Idempotent Create or Update — Updates existing ClickUp job if found; creates new task with custom fields if not found",
+      "06. Lifecycle & Task Branching — 'In Progress' creates Daily Checklist [Job UUID] - [Date] (if not present); 'Completed' sets status to Closeout",
+      "07. Billing & Follow-up Sync — Syncs Invoice and Payment custom fields and creates 6-Month Follow-up [Job UUID] with calculated due date",
+      "08. Error Handling — Unhandled failures route to sanitized logger, preserving operational visibility without credential exposure",
+    ],
+    features: [
+      "Authenticated n8n webhook ingestion endpoint for ServiceM8-style payloads",
+      "JavaScript payload normalization for nested customer and job attributes",
+      "Strict data validation gate enforcing Job UUID, Customer Name, and Job Status",
+      "External Job UUID key matching for idempotent create-or-update operations",
+      "Exclusion filter preventing secondary checklists & follow-ups from matching primary job dispatches",
+      "Automated ClickUp custom fields synchronization (Job UUID, Job Type, Invoice Status, Payment Status, Email, Phone, Address, Staff)",
+      "Daily Checklist creation engine for first site visits with date-stamped duplicate prevention",
+      "Closeout lifecycle automation triggering billing state updates upon job completion",
+      "Automated 6-Month Follow-up task creation with calculated due dates and custom field linkage",
+      "Sanitized error handler logging failed node, message, and timestamp without exposing secrets",
+      "Complete replay safety across initial dispatches, repeated events, status changes, and duplicate runs",
+    ],
+    automationWorkflow: [
+      "Webhook Ingestion → POST /servicem8-job payload received by n8n entry node",
+      "Data Normalization → JavaScript extracts customer_name, customer_email, customer_phone, customer_address, job_uuid, status, description, staff, job_type, invoice_status, payment_status",
+      "Validation Guard → If missing Job UUID, Customer Name, or Status → Return HTTP 400 rejection; Else → Continue",
+      "ClickUp Lookup → GET tasks filtered by Job UUID custom field (excluding '6-Month Follow-up' & 'Daily Checklist')",
+      "Branching Write → If Match Found → PUT update existing ClickUp task; Else → POST create new ClickUp task",
+      "Lifecycle Router → If Status == 'In Progress' → Check & Create Daily Checklist; If Status == 'Completed' → Set Closeout, Sync Invoice & Payment, Check & Create 6-Month Follow-up",
+      "Error Catch → On Node Error → Format sanitized JSON summary (Node, Message, Time) → Log to Execution Console",
+    ],
+    aiComponents: [
+      "n8n Workflow Engine with conditional branching, custom JavaScript transformations, and ClickUp REST API client",
+    ],
+    backend: [
+      "n8n Workflow Automation Platform",
+      "ClickUp REST API v2 (Tasks, Custom Fields, Filters)",
+      "JavaScript ES6 Data Transformation Scripts",
+    ],
+    screenshots: [
+      {
+        caption: "Test 1 (n8n Execution): New ServiceM8 job payload processed via Webhook → Normalize Payload → Validate Required Fields (Passed) → ClickUp Search → Find Existing Task (Not Found) → Create New Job node triggered.",
+        image: "/images/projects/servicem8-job-management-clickup/n8n-test1-execution.png",
+        workflowGroup: "Test 1 — New Job Creation",
+      },
+      {
+        caption: "Test 1 (ClickUp Destination): Exactly one new task created under NEW (1) status with populated custom fields: Job UUID (SM8-10293), Job Type (Plumbing), Payment Status (Unpaid), Customer Email (maria.santos@exam...), Customer Address (12 Rizal St, Balangk...), Staff Assigned (Jun Dela Cruz).",
+        image: "/images/projects/servicem8-job-management-clickup/clickup-test1-new-job.png",
+        workflowGroup: "Test 1 — New Job Creation",
+      },
+      {
+        caption: "Test 2 (n8n Execution): Identical ServiceM8 webhook event replayed → ClickUp Search matches Job UUID (SM8-10293) → Job Already Exists? [true] → Update Existing Job node triggered instead of creating a duplicate task.",
+        image: "/images/projects/servicem8-job-management-clickup/n8n-test2-replay.png",
+        workflowGroup: "Test 2 — Replay Safety & Idempotency",
+      },
+      {
+        caption: "Test 2 (ClickUp Destination): After replaying the identical event, task count under NEW remains strictly at 1 (SM8-10293), confirming 100% duplicate prevention.",
+        image: "/images/projects/servicem8-job-management-clickup/clickup-test2-no-duplicate.png",
+        workflowGroup: "Test 2 — Replay Safety & Idempotency",
+      },
+      {
+        caption: "Test 3 (n8n Execution): Webhook payload received with same Job UUID (SM8-10293) and updated description ('Replace kitchen tap and fix leaking pipe under sink') → Job Already Exists? [true] → Update Existing Job node updates ClickUp task details.",
+        image: "/images/projects/servicem8-job-management-clickup/n8n-test3-update-execution.png",
+        workflowGroup: "Test 3 — Existing Job Details Update",
+      },
+      {
+        caption: "Test 3 (ClickUp Destination): Existing task under NEW (1) successfully updated its description to 'Replace kitchen tap and fix leaking pipe under sink — Maria Santos' while preserving Job UUID (SM8-10293) and custom fields.",
+        image: "/images/projects/servicem8-job-management-clickup/clickup-test3-updated-job.png",
+        workflowGroup: "Test 3 — Existing Job Details Update",
+      },
+      {
+        caption: "Test 4 (n8n Execution): Incomplete webhook payload missing required Job UUID received → Validate Required Fields [false] → Rejected - Missing Required Fields node responds with structured error without writing to ClickUp.",
+        image: "/images/projects/servicem8-job-management-clickup/n8n-test4-rejected.png",
+        workflowGroup: "Test 4 — Validation Guard Rejection",
+      },
+      {
+        caption: "Test 5 (n8n Execution): First site visit event received → Update ClickUp Status → First Site Visit? [true] → Search Existing Daily Checklist → Check Checklist Duplicate → Checklist Not Yet Created? [true] → Create Daily Checklist Task node triggered.",
+        image: "/images/projects/servicem8-job-management-clickup/n8n-test5-sitevisit-execution.png",
+        workflowGroup: "Test 5 — First Site Visit & Daily Checklist",
+      },
+      {
+        caption: "Test 5 (ClickUp Destination): Primary job moved to IN PROGRESS (1) status, and new task 'Daily Checklist - SM8-10293 - 2026-08-19' created under NEW (1) status with date-stamped duplicate prevention.",
+        image: "/images/projects/servicem8-job-management-clickup/clickup-test5-checklist.png",
+        workflowGroup: "Test 5 — First Site Visit & Daily Checklist",
+      },
+      {
+        caption: "Test 6 (n8n Execution): Completed job event received → Update ClickUp Status → Job Completed? [true] → Billing Sync (HTTP Request & HTTP Request1) → Calculate Follow-up Date → Search Existing Follow-up → Check Follow-up Duplicate → Follow-up Not Yet Created? [true] → Create Six-Month Follow-up node triggered.",
+        image: "/images/projects/servicem8-job-management-clickup/n8n-test7-completed-execution.png",
+        workflowGroup: "Test 6 — Completed Event & Closeout Automation",
+      },
+      {
+        caption: "Test 6 (ClickUp Destination): Primary job task 'Replace kitchen tap and fix leaking pipe under sink — Maria Santos' (SM8-10293) successfully transitioned to CLOSEOUT (1) status, with billing synchronization and 6-month follow-up task scheduled.",
+        image: "/images/projects/servicem8-job-management-clickup/clickup-test7-closeout.png",
+        workflowGroup: "Test 6 — Completed Event & Closeout Automation",
+      },
+      {
+        caption: "n8n Workflow Canvas Architecture — Full n8n workflow diagram showing Webhook Ingestion, Normalization, Validation Guard, Idempotent ClickUp Lookup, Create/Update branching, First Site Visit Checklist, Closeout Billing Sync, 6-Month Follow-up, and Error Handling.",
+        image: "/images/projects/servicem8-job-management-clickup/n8n-workflow.png",
+        workflowGroup: "Full n8n Workflow Architecture",
+      },
+    ],
+    challenges: [
+      "Preventing duplicate tasks in ClickUp when source webhooks were replayed or retried by ServiceM8-style events",
+      "Distinguishing primary job tasks from secondary automated tasks (Daily Checklists & 6-Month Follow-ups) during Job UUID lookup",
+      "Handling nested and inconsistent customer data payloads without breaking downstream ClickUp API requests",
+      "Ensuring date calculations for 6-month follow-ups remained accurate across month boundaries and timezones",
+      "Building an observable error handling framework that logs exact node failures without risking API key leakage",
+    ],
+    learned: [
+      "External source-of-truth identifiers (e.g. Job UUID) are essential for building idempotent, replay-safe API integrations",
+      "Secondary tasks created by automations must carry explicit prefix filters or tags so lookup queries don't mistake them for primary records",
+      "Pre-validation guard nodes dramatically reduce downstream API errors by rejecting bad payloads before touching third-party services",
+      "Automating billing state sync alongside project management keeps field operations and finance teams aligned in real time",
+    ],
+    businessValue: [
+      "Eliminates 100% of duplicate task creation caused by webhook retries and repeated event dispatches",
+      "Saves field service teams hours of weekly manual data entry by automatically creating and updating ClickUp records",
+      "Ensures zero missed site visit checklists by auto-generating date-stamped inspection tasks on first visits",
+      "Guarantees post-service revenue opportunities by automatically scheduling 6-month customer follow-up tasks",
+      "Improves operational monitoring with clear, sanitized error logs that protect sensitive API credentials",
+    ],
+    demoUrl: null,
+    repoUrl: null,
+  },
   {
     slug: "automated-document-reception-system",
     name: "Automated Document Reception & Email Notification System",

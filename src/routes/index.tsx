@@ -180,7 +180,7 @@ function Home() {
                 to="/projects"
                 className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
               >
-                All 4 projects <ArrowRight className="h-4 w-4" />
+                All {projects.length} projects <ArrowRight className="h-4 w-4" />
               </Link>
             </Reveal>
           </div>
