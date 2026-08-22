@@ -38,7 +38,9 @@ function renderLiveLogic(slug: string) {
  * architecture diagram, screenshot mockup, problem/system narrative, tech tags, and case-study link.
  */
 export function ProjectCard({ project }: { project: Project }) {
-  const [activeTab, setActiveTab] = useState<"logic" | "diagram" | "screenshot">("logic");
+  const [activeTab, setActiveTab] = useState<"logic" | "diagram" | "screenshot">(
+    project.thumbnail ? "screenshot" : "logic"
+  );
 
   return (
     <article className="group flex h-full min-w-0 w-full max-w-full flex-col overflow-hidden rounded-2xl border border-border/80 bg-surface/90 backdrop-blur-xs transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-lift hover:shadow-primary/5">
@@ -49,7 +51,13 @@ export function ProjectCard({ project }: { project: Project }) {
         {/* View Toggle Bar */}
         <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 pb-3">
           <span className="label-mono flex items-center gap-1.5 text-xs font-semibold text-emerald-400">
-            <Zap className="h-3.5 w-3.5 text-emerald-400 animate-pulse" />
+            {activeTab === "logic" ? (
+              <Zap className="h-3.5 w-3.5 text-emerald-400 animate-pulse" />
+            ) : activeTab === "diagram" ? (
+              <Network className="h-3.5 w-3.5 text-emerald-400" />
+            ) : (
+              <ImageIcon className="h-3.5 w-3.5 text-emerald-400" />
+            )}
             {activeTab === "logic"
               ? "Live System Logic"
               : activeTab === "diagram"
@@ -58,6 +66,21 @@ export function ProjectCard({ project }: { project: Project }) {
           </span>
 
           <div className="flex items-center rounded-lg border border-border/80 bg-secondary/80 p-0.5 text-[11px] font-mono">
+            {project.thumbnail && (
+              <button
+                type="button"
+                onClick={() => setActiveTab("screenshot")}
+                className={`flex items-center gap-1 rounded-md px-2.5 py-1 transition-all ${
+                  activeTab === "screenshot"
+                    ? "bg-primary text-primary-foreground shadow-xs font-semibold"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <ImageIcon className="h-3 w-3" />
+                <span>Mockup</span>
+              </button>
+            )}
+
             <button
               type="button"
               onClick={() => setActiveTab("logic")}
@@ -83,21 +106,6 @@ export function ProjectCard({ project }: { project: Project }) {
               <Network className="h-3 w-3" />
               <span>Flow</span>
             </button>
-
-            {project.thumbnail && (
-              <button
-                type="button"
-                onClick={() => setActiveTab("screenshot")}
-                className={`flex items-center gap-1 rounded-md px-2.5 py-1 transition-all ${
-                  activeTab === "screenshot"
-                    ? "bg-primary text-primary-foreground shadow-xs font-semibold"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <ImageIcon className="h-3 w-3" />
-                <span>Mockup</span>
-              </button>
-            )}
           </div>
         </div>
 

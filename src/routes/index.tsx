@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArchitectureDiagram } from "@/components/architecture-diagram";
 import { ProjectCard } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
-import { projects } from "@/data/projects";
+import { categories, projects } from "@/data/projects";
 import { capabilities, process, profile, stack } from "@/data/site";
 import {
   Sparkles,
@@ -166,14 +167,14 @@ function Home() {
         </div>
       </section>
 
-      {/* FEATURED PROJECTS (ALL 4 PROJECTS) */}
+      {/* FEATURED PROJECTS */}
       <section id="projects" className="border-b border-border py-16 sm:py-24 bg-background">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="flex flex-wrap items-end justify-between gap-4 mb-10">
+          <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
             <SectionHeader
               label="Featured Case Studies"
               title="Problem → System Architecture → Measurable Outcome"
-              intro="Proven technical implementations combining web development, RPA, IoT microcontrollers, n8n automations, and AI integrations."
+              intro="Proven technical implementations separated into n8n Automations, GoHighLevel CRMs, and Web Applications & Systems."
             />
             <Reveal>
               <Link
@@ -185,13 +186,7 @@ function Home() {
             </Reveal>
           </div>
 
-          <div className="grid gap-8 lg:grid-cols-2 min-w-0 w-full">
-            {projects.map((p, i) => (
-              <Reveal key={p.slug} delay={i * 80} as="div" className="min-w-0 w-full">
-                <ProjectCard project={p} />
-              </Reveal>
-            ))}
-          </div>
+          <FeaturedProjectsSection />
         </div>
       </section>
 
@@ -349,6 +344,63 @@ function Home() {
           </Reveal>
         </div>
       </section>
+    </>
+  );
+}
+
+function FeaturedProjectsSection() {
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+  const categoriesList = ["All", ...categories];
+  const displayedProjects =
+    activeCategory === "All"
+      ? projects
+      : projects.filter((p) => p.category === activeCategory);
+
+  return (
+    <>
+      <div className="mb-8 flex flex-wrap gap-2.5">
+        {categoriesList.map((c) => {
+          const count = c === "All" ? projects.length : projects.filter((p) => p.category === c).length;
+          return (
+            <button
+              key={c}
+              type="button"
+              onClick={() => setActiveCategory(c)}
+              className={`flex items-center gap-2 rounded-lg border px-3.5 py-2 text-xs font-mono font-medium transition-all ${
+                activeCategory === c
+                  ? "border-primary/50 bg-primary/10 text-primary shadow-xs font-semibold"
+                  : "border-border/80 bg-surface/80 text-muted-foreground hover:border-border-strong hover:text-foreground"
+              }`}
+            >
+              {c === "n8n Automations" ? (
+                <Zap className="h-3.5 w-3.5 text-emerald-400" />
+              ) : c === "GoHighLevel CRMs" ? (
+                <Layers className="h-3.5 w-3.5 text-amber-400" />
+              ) : c === "Web Applications & Systems" ? (
+                <Globe className="h-3.5 w-3.5 text-blue-400" />
+              ) : (
+                <Sparkles className="h-3.5 w-3.5 text-primary" />
+              )}
+              <span>{c}</span>
+              <span
+                className={`ml-1 rounded-md px-1.5 py-0.5 text-[10px] font-bold ${
+                  activeCategory === c ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                }`}
+              >
+                {count}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="grid gap-8 lg:grid-cols-2 min-w-0 w-full">
+        {displayedProjects.map((p, i) => (
+          <Reveal key={p.slug} delay={i * 80} as="div" className="min-w-0 w-full">
+            <ProjectCard project={p} />
+          </Reveal>
+        ))}
+      </div>
     </>
   );
 }

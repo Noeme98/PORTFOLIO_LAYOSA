@@ -1,13 +1,9 @@
 // Neil Francis Layosa's Projects & Case Studies
 
 export const categories = [
-  "Workflow Automation",
-  "Web Applications",
-  "AI Automation",
-  "Internal Tools",
-  "Business Systems",
-  "API Integration",
-  "Technical Systems",
+  "n8n Automations",
+  "GoHighLevel CRMs",
+  "Web Applications & Systems",
 ] as const;
 
 export type Category = (typeof categories)[number];
@@ -61,7 +57,7 @@ export const projects: Project[] = [
   {
     slug: "servicem8-job-management-clickup",
     name: "ServiceM8-style Job Management → ClickUp",
-    category: "Workflow Automation",
+    category: "n8n Automations",
     summary:
       "A job-management automation that receives ServiceM8-style job events via webhooks, validates and transforms data, synchronizes jobs with ClickUp, prevents duplicate records, manages job lifecycle changes, and creates operational follow-up tasks automatically.",
     problem:
@@ -241,7 +237,7 @@ export const projects: Project[] = [
   {
     slug: "automated-document-reception-system",
     name: "Automated Document Reception & Email Notification System",
-    category: "Technical Systems",
+    category: "Web Applications & Systems",
     summary:
       "Best Thesis Award-winning full-stack document reception and physical tracking system integrated with ESP32 hardware sensors, live camera capture, and multi-node routing audit trails.",
     problem: "Manual document intake at office receptions caused misplaced physical mail, unverified document submissions, lack of document tracking across departments, and delayed notifications to recipients.",
@@ -371,7 +367,7 @@ export const projects: Project[] = [
   {
     slug: "clinicflow",
     name: "ClinicFlow — Healthcare Operations Platform",
-    category: "Business Systems",
+    category: "Web Applications & Systems",
     summary:
       "Recently completed healthcare operations platform covering patients, appointments, staff tasks, inventory, and reporting. Includes automated inventory alerts, appointment notifications, daily reports for administrators and doctors, and an AI assistant for system-related queries. (Recently completed, not yet deployed).",
     problem:
@@ -457,20 +453,8 @@ export const projects: Project[] = [
         image: "/images/projects/clinicflow/patients.png",
       },
       {
-        caption: "Patient Detail & Medical Profile Record",
-        image: "/images/projects/clinicflow/patient-detail.png",
-      },
-      {
-        caption: "Register New Patient Form Interface",
-        image: "/images/projects/clinicflow/register-patient.png",
-      },
-      {
         caption: "Tasks Management & Follow-ups Tracker",
         image: "/images/projects/clinicflow/tasks.png",
-      },
-      {
-        caption: "Create Task Form & Staff Assignment Interface",
-        image: "/images/projects/clinicflow/create-task.png",
       },
       {
         caption: "Appointments Calendar & Patient Booking Interface",
@@ -530,7 +514,7 @@ export const projects: Project[] = [
   {
     slug: "real-estate-lead-engine",
     name: "Real Estate Buyer/Seller Lead Qualification & Nurture Engine",
-    category: "Business Systems",
+    category: "GoHighLevel CRMs",
     summary:
       "Full-funnel GoHighLevel CRM automation managing buyer and seller lead lifecycles through six interconnected workflows, a custom intake form, lead scoring, conditional routing, pipeline state checks, and post-close referral loops.",
     problem:
@@ -731,7 +715,7 @@ export const projects: Project[] = [
   {
     slug: "leadflow",
     name: "LeadFlow — AI-Powered Lead Intake & Automated Response System",
-    category: "AI Automation",
+    category: "n8n Automations",
     summary:
       "An n8n workflow that captures form submissions, uses Google Gemini to qualify inquiries, validates AI output, and automatically routes qualified, non-qualified, and failed submissions to the appropriate systems.",
     problem:
@@ -885,7 +869,7 @@ export const projects: Project[] = [
   {
     slug: "ihomis-patient-data-migration",
     name: "IHOMIS Patient Data Migration Automation",
-    category: "AI Automation",
+    category: "Web Applications & Systems",
     summary:
       "Automated the transfer of 4,000+ patient records accumulated from 2019–2026 from Excel into IHOMIS using UI.Vision RPA. Increased processing capacity from 100–150 records per day manually to approximately 400 records per day, helping clear a multi-year data-entry backlog.",
     problem:
